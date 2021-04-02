@@ -1,0 +1,664 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix map: <http://mapping.example.com/>.
+@prefix wd: <https://www.wikidata.org/wiki/>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix purl: <http://purl.obolibrary.org/obo/>.
+
+map:rules_000 a <http://rdfs.org/ns/void#Dataset>;
+    <http://rdfs.org/ns/void#exampleResource> map:map_patient_000, map:map_glucose_000, map:map_insulin_000, map:map_annotation_000, map:map_food_000, map:map_consent_000.
+
+#PATIENT MAP
+map:map_patient_000 rml:logicalSource map:source_001;
+    a rr:TriplesMap;
+    rdfs:label "patient";
+	
+    rr:subjectMap map:s_001;
+    rr:predicateObjectMap map:pom_005, map:pom_006, map:pom_007, map:pom_009, map:pom_010, map:pom_011, map:pom_012, map:pom_013, map:pom_014.
+	
+	map:s_001 a rr:SubjectMap;
+		rr:template "http://example.com/patient/{id}".
+		
+	#TYPE	
+	map:pom_005 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_005;
+		rr:objectMap map:om_005.
+		
+		map:pm_005 a rr:PredicateMap;
+			rr:constant rdf:type.
+			
+		map:om_005 a rr:ObjectMap;
+			rr:constant wd:Q181600; #PATIENT
+			rr:termType rr:IRI.
+		
+	#PATIENT ID
+	map:pom_006 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_006;
+		rr:objectMap map:om_006.
+		
+		map:pm_006 a rr:PredicateMap;
+			rr:constant wd:Q853614. #IDENTIFIER
+			
+		map:om_006 a rr:ObjectMap;
+			rml:reference "id";
+			rr:termType rr:Literal.
+			
+	#HAS DIABETES
+	map:pom_009 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_009;
+		rr:objectMap map:om_009.
+		
+		map:pm_009 a rr:PredicateMap;
+			rr:constant wd:Q895262. #DIABETES
+			
+		map:om_009 a rr:ObjectMap;
+			rml:reference "hasDiabetes";
+			rr:datatype xsd:boolean;
+			rr:termType rr:Literal.
+	
+	
+	#GLUCOSE MEASUREMENT
+	map:pom_007 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_007;
+		rr:objectMap map:om_007.
+		
+		map:pm_007 a rr:PredicateMap;
+			rr:constant wd:Q37525. #GLUCOSE
+			
+		map:om_007 a rr:ObjectMap;
+			rr:template "http://example.com/patient/glucose/{glucose[*].id}";
+			rr:termType rr:IRI.
+			
+	#INSULIN MEASUREMENT
+	map:pom_010 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_010;
+		rr:objectMap map:om_010.
+		
+		map:pm_010 a rr:PredicateMap;
+			rr:constant wd:Q7240673. #INSULIN
+			
+		map:om_010 a rr:ObjectMap;
+			rr:template "http://example.com/patient/insulin/{insulin[*].id}";
+			rr:termType rr:IRI.
+			
+	#ANNOTATIONS REMARKS
+	map:pom_011 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_011;
+		rr:objectMap map:om_011.
+		
+		map:pm_011 a rr:PredicateMap;
+			rr:constant wd:Q857525. #ANNOTATION
+			
+		map:om_011 a rr:ObjectMap;
+			rr:template "http://example.com/patient/annotations/{annotations[*].id}";
+			rr:termType rr:IRI.
+			
+	#FOOD THINGY
+	map:pom_012 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_012;
+		rr:objectMap map:om_012.
+		
+		map:pm_012 a rr:PredicateMap;
+			rr:constant wd:Q2095. #FOOD
+			
+		map:om_012 a rr:ObjectMap;
+			rr:template "http://example.com/patient/food/{food[*].id}";
+			rr:termType rr:IRI.
+			
+			
+			
+	#CONSENT TEXT AT THE MOMENT, TRYING STUFF
+	map:pom_013 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_013;
+		rr:objectMap map:om_013.
+		
+		map:pm_013 a rr:PredicateMap;
+			rr:constant purl:DUO_0000001. #DATA USE PERMISSION
+			
+		map:om_013 a rr:ObjectMap;
+			rr:template "http://example.com/patient/consent/{consent.id}";
+			rr:termType rr:IRI.
+
+	#AGE 
+	map:pom_014 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_014;
+		rr:objectMap map:om_014.
+		
+		map:pm_014 a rr:PredicateMap;
+			rr:constant wd:Q185836. #AGE OF A PERSON
+			
+		map:om_014 a rr:ObjectMap;
+			rml:reference "age";
+			rr:termType rr:Literal;
+			rr:datatype xsd:integer.
+			
+			
+	
+
+#GLUCOSE MAP	
+map:map_glucose_000 rml:logicalSource map:source_002;
+    a rr:TriplesMap;
+    rdfs:label "glucose";
+	
+    rr:subjectMap map:s_002;
+    rr:predicateObjectMap map:pom_020, map:pom_021, map:pom_022, map:pom_023, map:pom_024, map:pom_025, map:pom_026.
+
+	map:s_002 a rr:SubjectMap;
+		rr:template "http://example.com/patient/glucose/{id}".
+	
+	#GLUCOSE TYPE
+	map:pom_020 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_020;
+		rr:objectMap map:om_020.
+		
+			map:pm_020 a rr:PredicateMap;
+				rr:constant rdfs:type.
+
+			map:om_020 a rr:ObjectMap;
+				rr:constant wd:Q37525. #GLUCOSE
+
+	#GLUCOSE GLUCOSE	
+	map:pom_021 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_021;
+		rr:objectMap map:om_021.
+
+			map:pm_021 a rr:PredicateMap;
+				rr:constant wd:Q12453. #MEASUREMENT
+
+			map:om_021 a rr:ObjectMap;
+				rml:reference "glucose";
+				rr:termType rr:Literal.
+				
+	# GLUCOSE COMMENTS			
+	map:pom_022 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_022;
+		rr:objectMap map:om_022.
+
+			map:pm_022 a rr:PredicateMap;
+				rr:constant wd:Q57481290. #COMMENTS
+
+			map:om_022 a rr:ObjectMap;
+				rml:reference "comments";
+				rr:termType rr:Literal.
+				
+	# GLUCOSE DATE			
+	map:pom_023 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_023;
+		rr:objectMap map:om_023.
+
+			map:pm_023 a rr:PredicateMap;
+				rr:constant wd:Q205892. #CALENDAR DATE 
+
+			map:om_023 a rr:ObjectMap;
+				rml:reference "date";
+				rr:datatype xsd:date;
+				rr:termType rr:Literal.
+	
+	# GLUCOSE TIME	
+	map:pom_024 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_024;
+		rr:objectMap map:om_024.
+
+			map:pm_024 a rr:PredicateMap;
+				rr:constant wd:Q11471. #TIME
+
+			map:om_024 a rr:ObjectMap;
+				rml:reference "time";
+				rr:datatype xsd:time;
+				rr:termType rr:Literal.
+	
+	# GLUCOSE ID
+	map:pom_025 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_025;
+		rr:objectMap map:om_025.
+		
+		map:pm_025 a rr:PredicateMap;
+			rr:constant wd:Q853614. #IDENTIFIER
+			
+		map:om_025 a rr:ObjectMap;
+			rml:reference "id";
+			rr:termType rr:Literal.
+			
+	# GLUCOSE TYPE, monitoring type	
+	map:pom_026 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_026;
+		rr:objectMap map:om_026.
+		
+			map:pm_026 a rr:PredicateMap;
+				rr:constant wd:Q47574. # UNIT OF MEASUREMENT
+
+			map:om_026 a rr:ObjectMap;
+				rml:reference "type";
+				rr:termType rr:Literal.
+
+# INSULIN MAP				
+map:map_insulin_000 rml:logicalSource map:source_003;
+    a rr:TriplesMap;
+    rdfs:label "insulin";
+	
+    rr:subjectMap map:s_003;
+    rr:predicateObjectMap map:pom_030, map:pom_031, map:pom_032, map:pom_033, map:pom_034, map:pom_035, map:pom_036.
+
+	map:s_003 a rr:SubjectMap;
+		rr:template "http://example.com/patient/insulin/{id}".
+	
+	#INSULIN IDENTIFIER
+	map:pom_030 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_030;
+		rr:objectMap map:om_030.
+		
+			map:pm_030 a rr:PredicateMap;
+				rr:constant wd:Q853614. #IDENTIFIER
+
+			map:om_030 a rr:ObjectMap;
+				rml:reference "id";
+				rr:termType rr:Literal.
+
+	# INSULIN TYPE
+	map:pom_031 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_031;
+		rr:objectMap map:om_031.
+		
+			map:pm_031 a rr:PredicateMap;
+				rr:constant rdfs:type.
+
+			map:om_031 a rr:ObjectMap;
+				rr:constant wd:Q50265665. #INSULIN
+	
+	# INSULIN FAST_INSULING
+	map:pom_032 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_032;
+		rr:objectMap map:om_032.
+
+			map:pm_032 a rr:PredicateMap;
+				rr:datatype xsd:string;
+				rr:constant "fast_insulin".
+
+			map:om_032 a rr:ObjectMap;
+				rml:reference "fast_insulin";
+				rr:datatype xsd:float;
+				rr:termType rr:Literal.
+
+	# INSULIN SLOW_INSULIN
+	map:pom_033 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_033;
+		rr:objectMap map:om_033.
+
+			map:pm_033 a rr:PredicateMap;
+				rr:constant "slow_insulin".
+
+			map:om_033 a rr:ObjectMap;
+				rml:reference "slow_insulin";
+				rr:datatype xsd:float;
+				rr:termType rr:Literal.
+
+	# INSULIN COMMENTS			
+	map:pom_034 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_034;
+		rr:objectMap map:om_034.
+
+			map:pm_034 a rr:PredicateMap;
+				rr:constant wd:Q57481290. #COMMENTS
+
+			map:om_034 a rr:ObjectMap;
+				rml:reference "comment";
+				rr:termType rr:Literal.
+				
+	# INSULIN DATE			
+	map:pom_035 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_035;
+		rr:objectMap map:om_035.
+
+			map:pm_035 a rr:PredicateMap;
+				rr:constant wd:Q205892. #CALENDAR DATE 
+
+			map:om_035 a rr:ObjectMap;
+				rml:reference "date";
+				rr:datatype xsd:date;
+				rr:termType rr:Literal.
+	
+	# INSULIN TIME	
+	map:pom_036 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_036;
+		rr:objectMap map:om_036.
+
+			map:pm_036 a rr:PredicateMap;
+				rr:constant wd:Q11471. #TIME
+
+			map:om_036 a rr:ObjectMap;
+				rml:reference "time";
+				rr:datatype xsd:time;
+				rr:termType rr:Literal.
+				
+				
+# ANNOTATIONS MAP				
+map:map_annotation_000 rml:logicalSource map:source_004;
+    a rr:TriplesMap;
+    rdfs:label "annotations";
+	
+    rr:subjectMap map:s_004;
+    rr:predicateObjectMap map:pom_040, map:pom_041, map:pom_042, map:pom_043, map:pom_044, map:pom_045, map:pom_046, map:pom_047.
+
+	map:s_004 a rr:SubjectMap;
+		rr:template "http://example.com/patient/annotations/{id}".
+
+	
+	# ANNOTATION TYPE
+	map:pom_040 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_040;
+		rr:objectMap map:om_040.
+		
+			map:pm_040 a rr:PredicateMap;
+				rr:constant rdfs:type.
+
+			map:om_040 a rr:ObjectMap;
+				rr:constant wd:Q857525. #ANNOTATION
+				
+	# ANNOTATION IDENTIFIER
+	map:pom_041 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_041;
+		rr:objectMap map:om_041.
+		
+			map:pm_041 a rr:PredicateMap;
+				rr:constant wd:Q853614. #IDENTIFIER
+
+			map:om_041 a rr:ObjectMap;
+				rml:reference "id";
+				rr:termType rr:Literal.
+
+	# ANNOTATION DESCRIPTION	
+	map:pom_042 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_042;
+		rr:objectMap map:om_042.
+
+			map:pm_042 a rr:PredicateMap;
+				rr:constant wd:Q1200750. #DESCRIPTION
+
+			map:om_042 a rr:ObjectMap;
+				rml:reference "description";
+				rr:termType rr:Literal.
+				
+	# ANNOTATION DESCRIPTION TYPE, PROBLEM
+	map:pom_043 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_043;
+		rr:objectMap map:om_043.
+
+			map:pm_043 a rr:PredicateMap;
+				rr:constant wd:Q56241591. #TYPE DESCRIPTION not correct
+
+			map:om_043 a rr:ObjectMap;
+				rml:reference "type";
+				rr:termType rr:Literal.
+				
+	# ANNOTATION END DATE			
+	map:pom_044 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_044;
+		rr:objectMap map:om_044.
+
+			map:pm_044 a rr:PredicateMap;
+				rr:constant wd:Q6045928. #END DATE 
+
+			map:om_044 a rr:ObjectMap;
+				rml:reference "end_date";
+				rr:datatype xsd:date;
+				rr:termType rr:Literal.
+	
+	# ANNOTATION END TIME	
+	map:pom_045 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_045;
+		rr:objectMap map:om_045.
+
+			map:pm_045 a rr:PredicateMap;
+				rr:constant wd:P582.  # END TIME
+
+			map:om_045 a rr:ObjectMap;
+				rml:reference "end_time";
+				rr:datatype xsd:time;
+				rr:termType rr:Literal.
+				
+	# ANNOTATION START DATE			
+	map:pom_046 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_046;
+		rr:objectMap map:om_046.
+
+			map:pm_046 a rr:PredicateMap;
+				rr:constant wd:Q10855024. #START DATE 
+
+			map:om_046 a rr:ObjectMap;
+				rml:reference "start_date";
+				rr:datatype xsd:date;
+				rr:termType rr:Literal.
+	
+	# ANNOTATION START TIME	
+	map:pom_047 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_047;
+		rr:objectMap map:om_047.
+
+			map:pm_047 a rr:PredicateMap;
+				rr:constant wd:Q24575110. #START TIME
+
+			map:om_047 a rr:ObjectMap;
+				rml:reference "start_time";
+				rr:datatype xsd:time;
+				rr:termType rr:Literal.
+				
+# FOOD MAP				
+map:map_food_000 rml:logicalSource map:source_005;
+    a rr:TriplesMap;
+    rdfs:label "food";
+	
+    rr:subjectMap map:s_005;
+    rr:predicateObjectMap map:pom_050, map:pom_051, map:pom_052, map:pom_053, map:pom_054, map:pom_055, map:pom_056, map:pom_057, map:pom_058.
+
+	map:s_005 a rr:SubjectMap;
+		rr:template "http://example.com/patient/food/{id}".
+	
+	# FOOD IDENTIFIER
+	map:pom_050 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_050;
+		rr:objectMap map:om_050.
+		
+			map:pm_050 a rr:PredicateMap;
+				rr:constant wd:Q853614. #IDENTIFIER
+
+			map:om_050 a rr:ObjectMap;
+				rml:reference "id";
+				rr:termType rr:Literal.
+
+	
+	# FOOD TYPE
+	map:pom_051 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_051;
+		rr:objectMap map:om_051.
+
+			map:pm_051 a rr:PredicateMap;
+				rr:constant rdfs:type.
+
+			map:om_051 a rr:ObjectMap;
+				rr:constant wd:Q6460735. #MEAL
+	
+	# FOOD CALORIES
+	map:pom_052 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_052;
+		rr:objectMap map:om_052.
+
+			map:pm_052 a rr:PredicateMap;
+				rr:constant wd:Q93873471. #CALORIES
+
+			map:om_052 a rr:ObjectMap;
+				rml:reference "calories";
+				rr:termType rr:Literal;
+				rr:datatype xsd:integer.
+				
+	# FOOD DESCRIPTION	
+	map:pom_053 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_053;
+		rr:objectMap map:om_053.
+
+			map:pm_053 a rr:PredicateMap;
+				rr:constant wd:Q1200750. #DESCRIPTION
+
+			map:om_053 a rr:ObjectMap;
+				rml:reference "description";
+				rr:termType rr:Literal.
+	
+	# FOOD PICTURE NAME	
+	map:pom_054 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_054;
+		rr:objectMap map:om_054.
+
+			map:pm_054 a rr:PredicateMap;
+				rr:constant wd:Q478798. # IMAGE
+
+			map:om_054 a rr:ObjectMap;
+				rml:reference "picture";
+				rr:termType rr:Literal.
+	
+	# FOOD BALANCE
+	map:pom_055 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_055;
+		rr:objectMap map:om_055.
+
+			map:pm_055 a rr:PredicateMap;
+				rr:constant "balance".
+
+			map:om_055 a rr:ObjectMap;
+				rml:reference "balance";
+				rr:termType rr:Literal.
+
+	# FOOD QUALITY
+	map:pom_056 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_056;
+		rr:objectMap map:om_056.
+
+			map:pm_056 a rr:PredicateMap;
+				rr:constant wd:Q2498665. # FOOD QUALITY
+
+			map:om_056 a rr:ObjectMap;
+				rml:reference "quality";
+				rr:termType rr:Literal.		
+
+	# FOOD DATE			
+	map:pom_057 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_057;
+		rr:objectMap map:om_057.
+
+			map:pm_057 a rr:PredicateMap;
+				rr:constant wd:Q205892. #CALENDAR DATE 
+
+			map:om_057 a rr:ObjectMap;
+				rml:reference "date";
+				rr:datatype xsd:date;
+				rr:termType rr:Literal.
+	
+	# FOOD TIME	
+	map:pom_058 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_058;
+		rr:objectMap map:om_058.
+
+			map:pm_058 a rr:PredicateMap;
+				rr:constant wd:Q11471. #TIME
+
+			map:om_058 a rr:ObjectMap;
+				rml:reference "time";
+				rr:datatype xsd:time;
+				rr:termType rr:Literal.				
+				
+
+#CONSENT	
+map:map_consent_000 rml:logicalSource map:source_006;
+    a rr:TriplesMap;
+    rdfs:label "consent";
+	
+    rr:subjectMap map:s_006;
+    rr:predicateObjectMap map:pom_060, map:pom_061, map:pom_062, map:pom_063.
+
+	map:s_006 a rr:SubjectMap;
+		rr:template "http://example.com/patient/consent/{id}".
+	
+	
+	# CONSENT IDENTIFIER
+	map:pom_060 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_060;
+		rr:objectMap map:om_060.
+		
+			map:pm_060 a rr:PredicateMap;
+				rr:constant wd:Q853614. #IDENTIFIER
+
+			map:om_060 a rr:ObjectMap;
+				rml:reference "id";
+				rr:termType rr:Literal.
+	
+	# CONSENT PROTECTING DATATYPE
+	map:pom_061 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_061;
+		rr:objectMap map:om_061.
+
+			map:pm_061 a rr:PredicateMap;
+				rr:constant purl:IAO_0000027. # DATA ITEM
+
+			map:om_061 a rr:ObjectMap;
+				rml:reference "datatype";
+				rr:termType rr:Literal.
+	
+	#CONSENT MAIN DUO CONSENT
+	map:pom_062 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_062;
+		rr:objectMap map:om_062.
+		
+		map:pm_062 a rr:PredicateMap;
+			rr:constant purl:IAO_0000618. # CONSENT SECTION
+			
+		map:om_062 a rr:ObjectMap;
+			rml:reference "main";
+			rr:termType rr:Literal.
+			
+	#CONSENT SECONDARY DUO CONSENT
+	map:pom_063 a rr:PredicateObjectMap;
+		rr:predicateMap map:pm_063;
+		rr:objectMap map:om_063.
+		
+		map:pm_063 a rr:PredicateMap;
+			rr:constant purl:IAO_0000641. #REQUIREMENTS SECTION
+			
+		map:om_063 a rr:ObjectMap;
+			rml:reference "secondary";
+			rr:termType rr:Literal.
+
+
+			
+map:om_000 a rr:ObjectMap;
+    rr:constant "http://www.w3.org/2002/07/owl#DatatypeProperty";
+    rr:termType rr:IRI.
+
+map:source_000 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$";
+    rml:referenceFormulation ql:JSONPath.	
+map:source_001 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*]";
+    rml:referenceFormulation ql:JSONPath.
+map:source_002 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*].glucose[*]";
+    rml:referenceFormulation ql:JSONPath.
+map:source_003 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*].insulin[*]";
+    rml:referenceFormulation ql:JSONPath.
+map:source_004 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*].annotations[*]";
+    rml:referenceFormulation ql:JSONPath.
+map:source_005 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*].food[*]";
+    rml:referenceFormulation ql:JSONPath.
+map:source_006 a rml:LogicalSource;
+    rml:source "patientList.json";
+    rml:iterator "$.patient[*].consent";
+    rml:referenceFormulation ql:JSONPath.
